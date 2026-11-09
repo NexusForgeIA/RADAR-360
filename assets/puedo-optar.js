@@ -2,9 +2,9 @@
   'use strict';
   var $ = function (i) { return document.getElementById(i); };
   var PERFIL_TEMAS = {
-    negocio: ['Empresas y empleo', 'Energía y medio ambiente', 'Vivienda y fachadas', 'Agro, pesca y animales'],
+    negocio: ['Empresas y empleo', 'Energía y medio ambiente', 'Movilidad y transporte', 'Vivienda y fachadas', 'Agro, pesca y animales'],
     empresa: ['Empresas y empleo', 'Energía y medio ambiente'],
-    persona: ['Educación y becas', 'Social y salud', 'Vivienda y fachadas', 'Deporte'],
+    persona: ['Educación y becas', 'Social y salud', 'Movilidad y transporte', 'Vivienda y fachadas', 'Deporte'],
     entidad: ['Cultura y festejos', 'Deporte', 'Social y salud', 'Otros']
   };
   var conv = [], lic = [];

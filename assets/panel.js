@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   var COLOR = { 'Agro, pesca y animales': '#16a34a', 'Educación y becas': '#3b82f6', 'Social y salud': '#f43f5e', 'Cultura y festejos': '#a855f7',
-    'Deporte': '#f59e0b', 'Empresas y empleo': '#06b6d4', 'Vivienda y fachadas': '#f97316', 'Energía y medio ambiente': '#84cc16', 'Concesión directa y convenios': '#94a3b8', 'Otros': '#64748b' };
+    'Deporte': '#f59e0b', 'Empresas y empleo': '#06b6d4', 'Vivienda y fachadas': '#f97316', 'Energía y medio ambiente': '#84cc16', 'Movilidad y transporte': '#38bdf8', 'Concesión directa y convenios': '#94a3b8', 'Otros': '#64748b' };
   var GREEN = '#22c55e', PURPLE = '#6d4aff', NS = 'http://www.w3.org/2000/svg';
   var MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
   var $ = function (id) { return document.getElementById(id); };

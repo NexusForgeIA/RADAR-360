@@ -36,6 +36,8 @@ class TemaTest(unittest.TestCase):
         self.assertEqual(radar.tema("CONVENIO ENTRE EL DEPARTAMENTO DE PRESIDENCIA, JUSTICIA, CULTURA Y DEPORTE Y LA COMARCA DE X"), "Concesión directa y convenios")
         self.assertEqual(radar.tema("Ayudas del Departamento de Cultura y Deporte para clubes de fútbol"), "Deporte")
         self.assertEqual(radar.tema("Ayudas a pymes para autoconsumo fotovoltaico"), "Energía y medio ambiente")
+        self.assertEqual(radar.tema("Ayudas a los titulares de licencias de taxi para la adaptación de vehículos"), "Movilidad y transporte")
+        self.assertEqual(radar.tema("Subvenciones para puntos de recarga de vehículos eléctricos"), "Movilidad y transporte")
         self.assertEqual(radar.tema("Fundació Pau Casals", ["ACTIVIDADES ARTÍSTICAS, DEPORTIVAS Y DE ENTRETENIMIENTO"]), "Cultura y festejos")
         self.assertEqual(radar.tema("xyz"), "Otros")
         self.assertEqual(radar.tema("Ayudas para pymes", None, "Concesión directa - instrumental"), "Concesión directa y convenios")

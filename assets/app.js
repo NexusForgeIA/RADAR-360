@@ -3,16 +3,16 @@
   // Perfil → temas que se priorizan (orientación por palabras clave, no elegibilidad).
   // Con ficha oficial se usa el tipo de beneficiario de BDNS; sin ficha, estos temas como orientación.
   var PERFIL_TEMAS = {
-    negocio: ['Empresas y empleo', 'Energía y medio ambiente', 'Vivienda y fachadas', 'Agro, pesca y animales'],
+    negocio: ['Empresas y empleo', 'Energía y medio ambiente', 'Movilidad y transporte', 'Vivienda y fachadas', 'Agro, pesca y animales'],
     empresa: ['Empresas y empleo', 'Energía y medio ambiente'],
-    persona: ['Educación y becas', 'Social y salud', 'Vivienda y fachadas', 'Deporte'],
+    persona: ['Educación y becas', 'Social y salud', 'Movilidad y transporte', 'Vivienda y fachadas', 'Deporte'],
     entidad: ['Cultura y festejos', 'Deporte', 'Social y salud', 'Otros']
   };
   var PERFIL_TXT = { negocio: 'Negocios y autónomos', empresa: 'Gran empresa', persona: 'Personas físicas', entidad: 'Entidades sin ánimo de lucro' };
   var COLOR = {
     'Agro, pesca y animales': '#16a34a', 'Educación y becas': '#2563eb', 'Social y salud': '#e11d48',
     'Cultura y festejos': '#a855f7', 'Deporte': '#f59e0b', 'Empresas y empleo': '#0891b2',
-    'Vivienda y fachadas': '#ea580c', 'Energía y medio ambiente': '#65a30d', 'Concesión directa y convenios': '#94a3b8', 'Otros': '#64748b'
+    'Vivienda y fachadas': '#ea580c', 'Energía y medio ambiente': '#65a30d', 'Movilidad y transporte': '#0ea5e9', 'Concesión directa y convenios': '#94a3b8', 'Otros': '#64748b'
   };
   var AMBITOS = { LOCAL: 'Local', AUTONOMICA: 'Autonómico', ESTADO: 'Estatal', OTROS: 'Otros' };
   var COL_AMB = { LOCAL: '#00e08a', AUTONOMICA: '#3b82f6', ESTADO: '#f59e0b', OTROS: '#94a3b8' };
