@@ -12,9 +12,9 @@ a{color:inherit;text-decoration:none}
 nav{display:grid;gap:4px}
 nav a,nav span{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;color:#cbd3ee;font-size:14.5px}
 nav a:hover{background:rgba(255,255,255,.05)}
-nav a.on{background:var(--pur);color:#fff;font-weight:600}
+.side nav a.on{background:var(--pur);color:#fff;font-weight:600}
 nav i{font-style:normal;width:18px;text-align:center;opacity:.9}
-nav.soon span{opacity:.45}
+nav.soon span{color:#9aa3bd}
 .fuente{font-size:11px;color:var(--mut);margin:28px 8px 0;line-height:1.5}
 
 .main{padding:22px 28px 40px;min-width:0}
