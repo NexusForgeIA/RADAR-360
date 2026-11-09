@@ -16,6 +16,8 @@ jobs:
       - run: python3 scripts/import_bdns.py
       - name: Importar licitaciones
         run: python3 scripts/import_placsp.py || echo "PLACSP no disponible, se conserva lo anterior"
+      - name: Estadísticas de mercado
+        run: python3 scripts/mercado.py || echo "Sin adjudicaciones, se conserva lo anterior"
       - run: python3 scripts/generar_seo.py
       - name: Guardar si hay cambios
         run: |

@@ -12,6 +12,8 @@ from radar import territorio  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 SALIDA = RAIZ / "data" / "licitaciones.json"
+SALIDA_ADJ = RAIZ / "data" / "adjudicaciones.json"
+MAX_ADJ = 8000           # adjudicaciones que se conservan (las más recientes)
 FEED = "https://contrataciondelestado.es/sindicacion/sindicacion_643/licitacionesPerfilesContratanteCompleto3.atom"
 UA = "RADAR360-bot/1.0 (+https://radar360pymes.onrender.com; datos abiertos PLACSP)"
 VENTANA_DIAS = 21      # cuánto se retrocede en el feed (cada página cubre ~2 días)
@@ -89,13 +91,47 @@ def parsea_entrada(e):
             url = l.get("href")
             break
     upd = _primero(e, "updated")
+    adj = adjudicacion(cfs)
     reg = {
         "id": exp, "estado": estado, "titulo": " ".join(titulo.split()), "organismo": " ".join((org or "").split()),
         "tipo": TIPOS.get(_primero(proy, "TypeCode") if proy is not None else None),
         "presupuesto": presu, "cpv": cpv, "plazo": plazo, "actualizado": (upd or "")[:10], "url": url,
     }
     reg.update(territorio([{"descripcion": f"{nuts} - {ciudad or ''}"}] if nuts else []))
+    if adj:
+        reg["adj"] = adj
     return reg
+
+
+def adjudicacion(cfs):
+    """Resultado de la licitación (TenderResult): solo si hay adjudicatario. None si no lo hay (desierta, sin resolver…).
+    Con varios lotes se suman importes y se toma el mínimo de ofertas recibidas."""
+    lotes = []
+    for tr in cfs.iter():
+        if _ln(tr) != "TenderResult":
+            continue
+        gana = _hijo(tr, "WinningParty")
+        nombre = None
+        if gana is not None:
+            pn = _hijo(gana, "PartyName")
+            nombre = _primero(pn, "Name") if pn is not None else None
+        if not nombre:
+            continue
+        ap = _hijo(tr, "AwardedTenderedProject")
+        importe = None
+        if ap is not None:
+            lm = _hijo(ap, "LegalMonetaryTotal")
+            if lm is not None:
+                importe = _num(_primero(lm, "TaxExclusiveAmount")) or _num(_primero(lm, "PayableAmount"))
+        ofertas = _num(_primero(tr, "ReceivedTenderQuantity"))
+        lotes.append({"ganador": " ".join(nombre.split()), "importe": importe,
+                      "ofertas": int(ofertas) if ofertas is not None else None, "fecha": (_primero(tr, "AwardDate") or "")[:10]})
+    if not lotes:
+        return None
+    of = [l["ofertas"] for l in lotes if l["ofertas"] is not None]
+    imp = [l["importe"] for l in lotes if l["importe"]]
+    return {"ganador": lotes[0]["ganador"], "lotes": len(lotes), "importe": round(sum(imp), 2) if imp else None,
+            "ofertas": min(of) if of else None, "fecha": max((l["fecha"] for l in lotes), default="")}
 
 
 def lee(xml_bytes):
@@ -138,6 +174,33 @@ def descarga(hoy):
     return vistas
 
 
+def guarda_adjudicaciones(vistas):
+    """Acumula adjudicaciones (data/adjudicaciones.json) para las estadísticas de mercado. Se desduplica por expediente+organismo."""
+    previas = {}
+    if SALIDA_ADJ.exists():
+        for r in json.loads(SALIDA_ADJ.read_text(encoding="utf-8")).get("adjudicaciones", []):
+            previas[(r["id"], r["organismo"])] = r
+    nuevas = 0
+    for x in vistas.values():
+        a = x.get("adj")
+        if not a:
+            continue
+        k = (x["id"], x["organismo"])
+        nuevas += k not in previas
+        previas[k] = {"id": x["id"], "organismo": x["organismo"], "titulo": x["titulo"][:160], "tipo": x.get("tipo"),
+                      "cpv": x.get("cpv"), "ccaa": x.get("ccaa") or [], "presupuesto": x.get("presupuesto"),
+                      "importe": a["importe"], "ofertas": a["ofertas"], "ganador": a["ganador"], "lotes": a["lotes"],
+                      "fecha": a["fecha"] or x.get("actualizado"), "url": x.get("url")}
+    if not previas:
+        print("sin adjudicaciones: no se escribe adjudicaciones.json")
+        return
+    todas = sorted(previas.values(), key=lambda r: (r["fecha"] or "", r["id"]), reverse=True)[:MAX_ADJ]
+    SALIDA_ADJ.write_text(json.dumps({"actualizado": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
+                                      "fuente": "Plataforma de Contratación del Sector Público (Ministerio de Hacienda)",
+                                      "adjudicaciones": todas}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"{len(todas)} adjudicaciones guardadas ({nuevas} nuevas)")
+
+
 def main():
     hoy = date.today().isoformat()
     if "--from-file" in sys.argv:
@@ -148,7 +211,12 @@ def main():
     previas = {}
     if SALIDA.exists():
         previas = {r["id"]: r for r in json.loads(SALIDA.read_text(encoding="utf-8")).get("licitaciones", [])}
-    previas.update(vistas)  # lo recién visto manda sobre lo antiguo (cambia de estado o de plazo)
+    guarda_adjudicaciones(vistas)
+    for k, v in vistas.items():  # lo recién visto manda sobre lo antiguo; si ya no está publicada, sale de «abiertas»
+        if v.get("estado") == "PUB":
+            previas[k] = v
+        else:
+            previas.pop(k, None)
     abiertas = [r for r in previas.values() if abierta(r, hoy)]
     if not abiertas:
         print("sin licitaciones abiertas: no se toca el fichero")
@@ -157,7 +225,7 @@ def main():
     SALIDA.write_text(json.dumps({
         "actualizado": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         "fuente": "Plataforma de Contratación del Sector Público (Ministerio de Hacienda)",
-        "licitaciones": abiertas}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        "licitaciones": [{k: v for k, v in r.items() if k != "adj"} for r in abiertas]}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"{len(abiertas)} licitaciones abiertas guardadas")
     return 0
 

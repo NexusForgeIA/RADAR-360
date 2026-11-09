@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Estadísticas de contratación pública en España: ofertas, bajas y adjudicatarios · RADAR 360</title>
+<meta name="description" content="Cuántas ofertas reciben los contratos públicos, qué baja se aplica sobre el presupuesto y quién adjudica más, por organismo, tipo y comunidad. Datos de la Plataforma de Contratación, gratis.">
+<link rel="canonical" href="https://radar360pymes.onrender.com/mercado/">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RADAR 360">
+<meta property="og:url" content="https://radar360pymes.onrender.com/mercado/">
+<meta property="og:title" content="Estadísticas de contratación pública en España: ofertas, bajas y adjudicatarios · RADAR 360">
+<meta property="og:description" content="Ofertas por contrato, baja media y adjudicatarios por organismo, tipo y comunidad. Gratis.">
+<meta property="og:image" content="https://radar360pymes.onrender.com/assets/img/og-radar360.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://radar360pymes.onrender.com/assets/img/og-radar360.png">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#071024">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RADAR 360">
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="logo" href="../" aria-label="RADAR 360 · inicio"><img src="../assets/img/logo-nav.png" alt="RADAR 360" width="112" height="48"></a>
+  <span class="tag"><a href="../" class="navlink">Ayudas</a><a href="../puedo-optar/" class="navlink">¿Puedo optar?</a><a href="../panel/" class="navlink">Panel</a><i class="live"></i>Datos oficiales · Gratis</span>
+</div></header>
+<main class="wrap seo">
+  <p class="crumbs"><a href="../">RADAR 360</a> › Mercado</p>
+  <h1>Estadísticas de contratación pública</h1>
+  <p class="lead2">Cuántas ofertas reciben los contratos, cuánto se rebaja el precio y quién adjudica más, a partir de las adjudicaciones publicadas en la Plataforma de Contratación del Sector Público. Útil para decidir a qué licitaciones merece la pena presentarse.</p>
+  <p class="upd2" id="upd">Cargando…</p>
+  <div class="kpis2" id="kpis"></div>
+  <h2>Por tipo de contrato</h2>
+  <div class="tabla-w"><table class="tabla" id="t-tipo"></table></div>
+  <h2>Por comunidad</h2>
+  <div class="tabla-w"><table class="tabla" id="t-ccaa"></table></div>
+  <h2>Por organismo contratante</h2>
+  <form class="lic-f" onsubmit="return false"><label class="grow">Buscar organismo<input id="q" type="search" placeholder="ayuntamiento, diputación, hospital…" autocomplete="off"></label></form>
+  <div class="tabla-w"><table class="tabla" id="t-org"></table></div>
+  <button id="mas" class="more" hidden>Ver más</button>
+  <h2>Adjudicatarios con más importe</h2>
+  <div class="tabla-w"><table class="tabla" id="t-gan"></table></div>
+  <p class="empty" id="vacio" hidden>Todavía no hay adjudicaciones cargadas. Se publican tras la próxima actualización automática.</p>
+  <p><a class="cta" href="../licitaciones/">Ver licitaciones abiertas →</a></p>
+  <h2>Cómo leer esta página</h2>
+  <ul>
+    <li>Son datos oficiales agregados por RADAR 360 a partir de las adjudicaciones recientes del feed de datos abiertos de la Plataforma de Contratación. No es un histórico completo: cubre las adjudicaciones publicadas en las últimas semanas.</li>
+    <li><strong>Una sola oferta</strong> es un indicador de competencia, no de irregularidad: hay contratos muy especializados o de poco importe donde es normal. Un porcentaje alto invita a mirar el contrato, no a sacar conclusiones.</li>
+    <li><strong>Baja media</strong> = diferencia entre el presupuesto base de licitación y el importe adjudicado, sobre contratos que informan ambos datos y sin IVA.</li>
+    <li>Los rankings de adjudicatarios solo incluyen personas jurídicas (sociedades, UTE, fundaciones…). Las adjudicaciones a personas físicas cuentan en los totales pero no se listan por nombre.</li>
+    <li>Un organismo solo aparece si tiene al menos 5 adjudicaciones con el número de ofertas informado. Los datos pueden contener errores de la fuente: contrasta siempre en la ficha oficial.</li>
+    <li>RADAR 360 no valora la legalidad ni la conveniencia de ninguna adjudicación.</li>
+  </ul>
+</main>
+<footer><div class="wrap"><a href="../aviso-legal/">Aviso legal</a> · <a href="../privacidad/">Privacidad</a> · <a href="../cookies/">Cookies</a><br>RADAR 360 · proyecto de <a href="https://whitemoon.es" rel="noopener">WhiteMoon</a>. Información orientativa de fuentes oficiales: más detalle en el <a href="../aviso-legal/">aviso legal</a>.</div></footer>
+<script src="../assets/mercado.js"></script>
+<script src="/assets/nav.js" defer></script>
+</body>
+</html>
