@@ -200,6 +200,8 @@ def main():
         urls += generar_organismos.genera()
         import generar_sectores
         urls += generar_sectores.genera()
+        import generar_semana
+        urls += generar_semana.genera()
     except ImportError as e:
         print("organismos omitidos:", e)
     mod = act[:10]
