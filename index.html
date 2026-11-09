@@ -26,12 +26,17 @@
           <label>Mi perfil
             <select id="perfil">
               <option value="">Todos</option>
-              <option value="autonomo">Autónomo</option>
-              <option value="pyme">Pyme</option>
-              <option value="emprendedor">Emprendedor</option>
-              <option value="entidad">Asociación o club</option>
-              <option value="familia">Familia o estudiante</option>
+              <option value="negocio">Negocio (autónomo, pyme, emprendedor)</option>
+              <option value="empresa">Gran empresa</option>
+              <option value="persona">Persona, familia o estudiante</option>
+              <option value="entidad">Asociación o entidad sin ánimo de lucro</option>
             </select>
+          </label>
+          <label>Comunidad
+            <select id="ccaa"><option value="">Toda España</option></select>
+          </label>
+          <label>Provincia
+            <select id="prov" disabled><option value="">Todas</option></select>
           </label>
           <label>Ámbito
             <select id="ambito"><option value="">Todos</option></select>
@@ -39,6 +44,7 @@
           <label class="grow">Busco…
             <input id="q" type="search" placeholder="digitalización, becas, fachadas, deporte…" autocomplete="off">
           </label>
+          <label class="chk"><input id="vigente" type="checkbox"> Solo con plazo vigente</label>
         </form>
       </div>
       <div class="radar" aria-hidden="true">
@@ -77,8 +83,9 @@
     <h2>Cómo funciona y qué no hace</h2>
     <ul>
       <li>Los datos vienen de la <a href="https://www.infosubvenciones.es" rel="noopener">BDNS (infosubvenciones.es)</a>. Cada ficha enlaza a la convocatoria oficial.</li>
-      <li>El <b>tema</b> y el <b>perfil</b> son una orientación automática por palabras clave del título: pueden fallar. La referencia es siempre la fuente oficial.</li>
-      <li>No verás plazos, cuantías ni requisitos: no vienen en el listado y no los inventamos. Se consultan en la ficha oficial.</li>
+      <li>El <b>perfil</b>, el <b>territorio</b>, el <b>presupuesto</b> y el <b>plazo</b> salen de la ficha oficial de cada convocatoria. Cuando una ficha aún no se ha cargado, el perfil es una orientación por palabras clave y no hay territorio.</li>
+      <li>El <b>tema</b> es siempre una orientación automática por palabras clave del título: puede fallar.</li>
+      <li>Muchas convocatorias no indican fecha de plazo (aún no abiertas o sin fecha en la ficha): en ese caso se muestra «ver plazo en la ficha». Los requisitos solo se consultan en la fuente oficial.</li>
       <li>Aparecer aquí no significa que puedas optar a la ayuda ni que te la concedan. RADAR 360 no es un asesor ni tramita solicitudes.</li>
     </ul>
     <p class="mini" id="actualizado"></p>
@@ -86,7 +93,8 @@
 </main>
 
 <footer>
-  <div class="wrap">RADAR 360 · proyecto de <a href="https://whitemoon.es" rel="noopener">WhiteMoon</a> · Prototipo en validación</div>
+  <div class="wrap">RADAR 360 · proyecto de <a href="https://whitemoon.es" rel="noopener">WhiteMoon</a> · Prototipo en validación.<br>
+    Origen de los datos: Intervención General de la Administración del Estado (BDNS). Esta web es independiente y no está respaldada ni patrocinada por la IGAE. Información de carácter orientativo: compruébala en la fuente oficial.</div>
 </footer>
 <script src="assets/app.js"></script>
 </body>
