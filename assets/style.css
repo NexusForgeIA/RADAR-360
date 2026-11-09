@@ -210,3 +210,10 @@ footer .wrap{line-height:1.6}
 .tabla .num{text-align:right;white-space:nowrap}.tabla td:first-child,.tabla th:first-child{text-align:left;min-width:150px}
 .tabla td:last-child:not(.num){min-width:160px}
 .alt-aviso a{color:var(--vol)}
+
+/* herramientas en portada */
+.tools{margin:34px auto}.tools h2{margin:0 0 4px}.tools-lead{margin:0 0 14px;color:var(--mut)}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:12px}
+.tools-grid a{display:grid;gap:4px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--vol);border-radius:var(--r);padding:14px 16px;text-decoration:none;color:var(--ink);box-shadow:var(--sh);transition:transform .15s}
+.tools-grid a:hover{transform:translateY(-2px)}.tools-grid b{font-size:15px}.tools-grid span{font-size:13px;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){.tools-grid a{transition:none}}
