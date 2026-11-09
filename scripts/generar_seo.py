@@ -128,7 +128,7 @@ def pagina(ruta, titulo, h1, desc, intro, lista, total, actualizado, enlaces, cr
   </ul>
 </main>
 <footer><div class="wrap">RADAR 360 · proyecto de <a href="https://whitemoon.es" rel="noopener">WhiteMoon</a>.<br>
-Origen de los datos: Intervención General de la Administración del Estado (BDNS). Esta web es independiente y no está respaldada ni patrocinada por la IGAE. Información orientativa: compruébala en la fuente oficial. <a href="/privacidad/">Privacidad</a></div></footer>
+Origen de los datos: Intervención General de la Administración del Estado (BDNS). Esta web es independiente y no está respaldada ni patrocinada por la IGAE. Información orientativa: compruébala en la fuente oficial. <a href="/aviso-legal/">Aviso legal</a> · <a href="/privacidad/">Privacidad</a> · <a href="/cookies/">Cookies</a></div></footer>
 </body>
 </html>
 '''
@@ -183,7 +183,7 @@ def main():
     idx = re.sub(r"\s*<h2>Más búsquedas</h2>\s*<nav class=\"seo-nav\"></nav>", "", idx)
     (salida / "index.html").write_text(idx, encoding="utf-8")
 
-    urls = [f"{BASE}/", f"{BASE}/panel/", f"{BASE}/ayudas/", f"{BASE}/licitaciones/", f"{BASE}/puedo-optar/"] + [f"{BASE}/ayudas/{g[0]}" for g in grupos]
+    urls = [f"{BASE}/", f"{BASE}/panel/", f"{BASE}/ayudas/", f"{BASE}/licitaciones/", f"{BASE}/puedo-optar/", f"{BASE}/aviso-legal/", f"{BASE}/privacidad/", f"{BASE}/cookies/"] + [f"{BASE}/ayudas/{g[0]}" for g in grupos]
     mod = act[:10]
     (RAIZ / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
