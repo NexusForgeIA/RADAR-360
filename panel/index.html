@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel · RADAR 360</title>
+<meta name="description" content="Panel de RADAR 360: evolución diaria de convocatorias de ayudas y subvenciones en España, próximos cierres y métricas, con datos de la BDNS.">
+<link rel="stylesheet" href="../assets/panel.css">
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side">
+    <a class="brand" href="./"><span class="dot"></span>RADAR <b>360</b></a>
+    <p class="sec">MENÚ</p>
+    <nav>
+      <a class="on" href="./"><i>▦</i>Panel</a>
+      <a href="../"><i>⌕</i>Buscador</a>
+      <a href="#analitica"><i>↗</i>Evolución</a>
+      <a href="#temas"><i>▤</i>Por tema</a>
+      <a href="#cierres"><i>⏱</i>Próximos cierres</a>
+      <a href="#ultimas"><i>≡</i>Últimas</a>
+    </nav>
+    <p class="sec">PRÓXIMAMENTE</p>
+    <nav class="soon">
+      <span><i>✉</i>Alertas por email</span>
+      <span><i>✓</i>¿Puedo optar?</span>
+    </nav>
+    <p class="fuente">Origen de los datos: Intervención General de la Administración del Estado (BDNS). Sitio independiente, no respaldado por la IGAE.</p>
+  </aside>
+
+  <main class="main">
+    <header class="head">
+      <div>
+        <h1 id="saludo">Hola</h1>
+        <p id="sub">Esto es lo que se está publicando en la BDNS.</p>
+      </div>
+      <div class="upd" id="upd"></div>
+    </header>
+
+    <section class="cards3" id="kpis" aria-live="polite"></section>
+
+    <div class="grid">
+      <section class="col">
+        <div class="ahead" id="analitica">
+          <div><h2>Evolución</h2><p>Convocatorias publicadas por día en toda España</p></div>
+          <div class="range" id="rango" role="group" aria-label="Rango de días">
+            <button data-d="7">7D</button><button data-d="14" class="on">14D</button><button data-d="0">Todo</button>
+          </div>
+        </div>
+        <div class="chart" id="chart"></div>
+        <div class="legend" id="legend"></div>
+
+        <h2 class="h2" id="temas">Por tema</h2>
+        <div class="tema-grid" id="temagrid"></div>
+
+        <h2 class="h2" id="ultimas">Últimas convocatorias <a class="more" href="../">Ver buscador completo →</a></h2>
+        <ul class="list" id="ultimaslist"></ul>
+      </section>
+
+      <aside class="right">
+        <div class="box">
+          <h3>Métricas</h3>
+          <div class="donut" id="donut"></div>
+          <p class="mtxt" id="donuttxt"></p>
+        </div>
+        <div class="box">
+          <div class="spark" id="spark"></div>
+          <p class="mtxt" id="sparktxt"></p>
+        </div>
+        <div class="box" id="cierres">
+          <h3>Próximos cierres</h3>
+          <ol class="todo" id="todo"></ol>
+          <p class="mtxt dim" id="todonota"></p>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+<script src="../assets/panel.js"></script>
+</body>
+</html>

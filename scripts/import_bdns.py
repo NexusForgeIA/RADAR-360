@@ -26,10 +26,10 @@ API = "https://www.infosubvenciones.es/bdnstrans/api/convocatorias/busqueda"
 SALIDA = os.path.join(os.path.dirname(__file__), "..", "data", "convocatorias.json")
 RETENCION_DIAS = 14     # se conserva todo lo recibido en los últimos N días…
 DETALLE = "https://www.infosubvenciones.es/bdnstrans/api/convocatorias?vpd=GE&numConv={n}"
-MAX_FICHAS = 1200       # fichas que se piden por ejecución (cortesía con el API)
+MAX_FICHAS = 2500       # fichas que se piden por ejecución (cortesía con el API)
 PAUSA = 0.2             # segundos entre peticiones
 POR_PAGINA = 100
-MAX_PAGINAS = 30
+MAX_PAGINAS = 45
 
 
 def ficha(n):
@@ -85,13 +85,21 @@ def main():
     else:
         crudas = descarga((hoy - timedelta(days=14)).strftime("%d/%m/%Y"))
     nuevas = [radar.normaliza(c) for c in crudas if c.get("numeroConvocatoria")]
+    por_dia = {}
+    for c in nuevas:
+        por_dia[c["fecha"]] = por_dia.get(c["fecha"], 0) + 1
     if not nuevas:
         print("sin datos: se conserva el fichero actual")
         return 1
     try:
-        previas = json.load(open(SALIDA, encoding="utf-8")).get("convocatorias", [])
+        antes = json.load(open(SALIDA, encoding="utf-8"))
     except (OSError, ValueError):
-        previas = []
+        antes = {}
+    previas = antes.get("convocatorias", [])
+    serie = dict(antes.get("serie", {}))
+    if not a.from_file:                                     # cifras diarias completas solo si se descargó la ventana entera
+        serie.update(por_dia)
+    serie = dict(sorted(serie.items())[-45:])
     por_num = {c["numero"]: c for c in previas}
     for c in nuevas:                                        # lo nuevo pisa a lo viejo, salvo la ficha ya pedida
         v = por_num.get(c["numero"])
@@ -102,7 +110,7 @@ def main():
     todas.sort(key=lambda c: (c["fecha"], c["numero"]), reverse=True)
     os.makedirs(os.path.dirname(SALIDA), exist_ok=True)
     json.dump({"actualizado": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "fuente": "BDNS · infosubvenciones.es",
-               "convocatorias": todas}, open(SALIDA, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+               "serie": serie, "convocatorias": todas}, open(SALIDA, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"{len(todas)} convocatorias guardadas")
     return 0
 
