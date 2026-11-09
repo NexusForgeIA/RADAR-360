@@ -209,3 +209,4 @@ footer .wrap{line-height:1.6}
 .tabla th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
 .tabla .num{text-align:right;white-space:nowrap}.tabla td:first-child,.tabla th:first-child{text-align:left;min-width:150px}
 .tabla td:last-child:not(.num){min-width:160px}
+.alt-aviso a{color:var(--vol)}
