@@ -43,7 +43,7 @@
     tabla($('t-tipo'), ['Tipo'].concat(CAB.slice(1)), Object.keys(m.por_tipo).map(function (t) { return reg(t, m.por_tipo[t]); }));
     tabla($('t-ccaa'), ['Comunidad'].concat(CAB.slice(1)), Object.keys(m.por_ccaa).map(function (t) { return reg(t, m.por_ccaa[t]); }));
     orgs = m.por_organismo || []; pintaOrgs();
-    tabla($('t-gan'), ['Adjudicatario', 'Adjudicaciones', 'Importe', 'Organismos distintos'],
+    tabla($('t-gan'), ['Adjudicatario', 'Contratos', 'Importe total', 'Organismos distintos'],
       (m.top_adjudicatarios || []).map(function (a) { return [a.nombre, n(a.n), eur(a.importe), n(a.organismos)]; }));
     $('q').addEventListener('input', pintaOrgs);
     $('mas').addEventListener('click', function () { mostradas = Math.min(vista.length, mostradas + pag); dibujaOrgs(); });

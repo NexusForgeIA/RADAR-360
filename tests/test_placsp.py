@@ -74,6 +74,8 @@ class Adj(unittest.TestCase):
         self.assertEqual(r["global"]["pct_una_oferta"], 60.0)
         self.assertEqual(r["global"]["baja_media"], 10.0)
         self.assertEqual(r["por_organismo"][0]["top_ganador"], {"nombre": "Construcciones Ejemplo S.L.", "n": 4})
+        rows.append({"id":"old","organismo":"Ayuntamiento de Prueba","tipo":"Obras","ccaa":["Madrid"],"presupuesto":1.0,"importe":1.0,"ofertas":1,"ganador":"Vieja S.L.","fecha":"2023-01-01"})
+        self.assertEqual(mercado.calcula(rows)["global"]["n"], 5)  # la antigua queda fuera
         self.assertEqual([x["nombre"] for x in r["top_adjudicatarios"]], ["Construcciones Ejemplo S.L."])  # persona física fuera
 
 

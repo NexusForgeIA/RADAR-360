@@ -3,12 +3,13 @@
 Solo indicadores objetivos (nº de adjudicaciones, ofertas recibidas, baja sobre presupuesto, importes)."""
 import json, re, sys
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 ENTRADA = RAIZ / "data" / "adjudicaciones.json"
 SALIDA = RAIZ / "data" / "mercado.json"
+VENTANA_DIAS = 90   # solo adjudicaciones con fecha de adjudicación reciente (el feed también republica contratos antiguos modificados)
 MIN_ORG = 5   # adjudicaciones mínimas (con nº de ofertas informado) para listar un organismo
 # Solo se rankean personas jurídicas: el nombre de una persona física no se agrega en ningún ranking.
 JURIDICA = re.compile(r"\b(S\.?\s?L\.?(U\.?)?|S\.?\s?A\.?(U\.?)?|S\.?\s?COOP|UTE|U\.T\.E|S\.?L\.?L|S\.?C\.?P|FUNDACI[OÓ]N|ASOCIACI[OÓ]N|AGRUPACI[OÓ]N|SOCIEDAD|COOPERATIVA|CONSORCIO|CORPORACI[OÓ]N|EMPRESA)\b", re.I)
@@ -28,7 +29,17 @@ def indicadores(rs):
             "ofertas_media": _med(of), "baja_media": round(100 * _med(bajas), 1) if bajas else None}
 
 
+def reciente(adj):
+    """Se queda con las adjudicaciones de los últimos VENTANA_DIAS días respecto a la más reciente."""
+    fs = [r["fecha"] for r in adj if r.get("fecha")]
+    if not fs:
+        return adj
+    limite = (datetime.fromisoformat(max(fs)) - timedelta(days=VENTANA_DIAS)).date().isoformat()
+    return [r for r in adj if (r.get("fecha") or "") >= limite]
+
+
 def calcula(adj):
+    adj = reciente(adj)
     out = {"global": indicadores(adj)}
     fechas = [r["fecha"] for r in adj if r.get("fecha")]
     out["periodo"] = {"desde": min(fechas) if fechas else None, "hasta": max(fechas) if fechas else None}
@@ -64,7 +75,8 @@ def calcula(adj):
             g[r["ganador"]].append(r)
     gan = [{"nombre": k, "n": len(v), "importe": round(sum(x["importe"] or 0 for x in v)),
             "organismos": len({x["organismo"] for x in v})} for k, v in g.items()]
-    gan.sort(key=lambda a: (-a["importe"], -a["n"]))
+    gan = [a for a in gan if a["n"] >= 2]  # un solo contrato no es un ranking
+    gan.sort(key=lambda a: (-a["n"], -a["importe"]))
     out["top_adjudicatarios"] = gan[:30]
     return out
 
