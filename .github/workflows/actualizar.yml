@@ -14,6 +14,9 @@ jobs:
         with:
           python-version: "3.12"
       - run: python3 scripts/import_bdns.py
+      - name: Importar licitaciones (PLACSP)
+        continue-on-error: true
+        run: python3 scripts/import_placsp.py
       - run: python3 scripts/generar_seo.py
       - name: Guardar si hay cambios
         run: |

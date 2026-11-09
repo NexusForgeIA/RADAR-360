@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Licitaciones públicas abiertas en España · RADAR 360</title>
+<meta name="description" content="Licitaciones públicas abiertas de la Plataforma de Contratación del Sector Público, filtradas por comunidad, tipo de contrato y palabra clave. Gratis, con enlace a la fuente oficial.">
+<link rel="canonical" href="https://radar360pymes.onrender.com/licitaciones/">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RADAR 360">
+<meta property="og:url" content="https://radar360pymes.onrender.com/licitaciones/">
+<meta property="og:title" content="Licitaciones públicas abiertas en España · RADAR 360">
+<meta property="og:description" content="Licitaciones abiertas por comunidad, tipo y palabra clave, con enlace a la fuente oficial.">
+<meta property="og:image" content="https://radar360pymes.onrender.com/assets/img/og-radar360.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://radar360pymes.onrender.com/assets/img/og-radar360.png">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="logo" href="../" aria-label="RADAR 360 · inicio"><img src="../assets/img/logo-nav.png" alt="RADAR 360" width="112" height="48"></a>
+  <span class="tag"><a href="../" class="navlink">Ayudas</a><a href="../panel/" class="navlink">Panel</a><i class="live"></i>Datos oficiales · Gratis</span>
+</div></header>
+<main class="wrap seo">
+  <p class="crumbs"><a href="../">RADAR 360</a> › Licitaciones</p>
+  <h1>Licitaciones públicas abiertas</h1>
+  <p class="lead2">Contratos que las administraciones están licitando ahora mismo y aún admiten ofertas. Filtra por zona, tipo de contrato o palabra clave y abre la ficha oficial.</p>
+  <p class="upd2" id="upd">Cargando…</p>
+  <form class="lic-f" id="f" onsubmit="return false">
+    <label>Comunidad<select id="ccaa"><option value="">Toda España</option></select></label>
+    <label>Tipo<select id="tipo"><option value="">Todos</option></select></label>
+    <label class="grow">Busco…<input id="q" type="search" placeholder="limpieza, software, obras, mantenimiento…" autocomplete="off"></label>
+    <label>Ordenar<select id="ord"><option value="plazo">Próximo cierre</option><option value="imp">Mayor importe</option><option value="rec">Más recientes</option></select></label>
+  </form>
+  <p class="count" id="cuenta" aria-live="polite"></p>
+  <ul class="seo-list" id="lista"></ul>
+  <p class="empty" id="vacio" hidden>Ninguna licitación coincide. Prueba con menos filtros.</p>
+  <button id="mas" class="more" hidden>Ver más</button>
+  <h2>Cómo leer esta página</h2>
+  <ul>
+    <li>Se muestran licitaciones en estado «publicada» y con plazo de presentación vigente según la Plataforma de Contratación del Sector Público. El plazo, los pliegos y los requisitos solo valen en la ficha oficial.</li>
+    <li>El importe es el presupuesto base de licitación sin IVA cuando la plataforma lo informa.</li>
+    <li>La zona sale del lugar de ejecución indicado en la licitación; si no consta, no se asigna comunidad.</li>
+    <li>RADAR 360 no tramita ofertas ni asesora sobre contratación pública.</li>
+  </ul>
+</main>
+<footer><div class="wrap">RADAR 360 · proyecto de <a href="https://whitemoon.es" rel="noopener">WhiteMoon</a>.<br>
+Origen de los datos: Plataforma de Contratación del Sector Público (Ministerio de Hacienda), datos abiertos. Sitio independiente, sin respaldo oficial. Información orientativa: compruébala en la fuente. <a href="../privacidad/">Privacidad</a></div></footer>
+<script src="../assets/licitaciones.js"></script>
+</body>
+</html>

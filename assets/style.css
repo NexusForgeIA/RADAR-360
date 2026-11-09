@@ -128,3 +128,10 @@ footer .wrap{line-height:1.6}
 .seo-list small{color:var(--mut);font-size:12.5px}
 .seo-nav{display:flex;flex-wrap:wrap;gap:8px}
 .seo-nav a{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;text-decoration:none}
+.lic-f{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0 6px}
+.lic-f label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--mut);min-width:150px}
+.lic-f .grow{flex:1;min-width:220px}
+.lic-f select,.lic-f input{border:1px solid var(--line)}
+.seo .count{color:var(--mut);margin:10px 0}
+.seo .more{margin:14px auto;display:block;padding:10px 20px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.navlink{margin-right:10px}
