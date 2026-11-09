@@ -2,8 +2,8 @@
   'use strict';
   var $ = function (i) { return document.getElementById(i); };
   var PERFIL_TEMAS = {
-    negocio: ['Empresas y empleo', 'Vivienda y fachadas', 'Agro, pesca y animales'],
-    empresa: ['Empresas y empleo'],
+    negocio: ['Empresas y empleo', 'Energía y medio ambiente', 'Vivienda y fachadas', 'Agro, pesca y animales'],
+    empresa: ['Empresas y empleo', 'Energía y medio ambiente'],
     persona: ['Educación y becas', 'Social y salud', 'Vivienda y fachadas', 'Deporte'],
     entidad: ['Cultura y festejos', 'Deporte', 'Social y salud', 'Otros']
   };
@@ -21,6 +21,7 @@
     return conv.filter(function (c) {
       if (c.ficha && c.fin && c.fin < h) return false;
       if (p.cc && c.ficha && !zona(c, p.cc)) return false;
+      if (c.tema === 'Concesión directa y convenios') return false; // concesión directa a una entidad: no se puede solicitar
       if (p.tema && c.tema !== p.tema) return false;
       if (c.ficha ? (c.perfiles || []).indexOf(p.perfil) < 0 : PERFIL_TEMAS[p.perfil].indexOf(c.tema) < 0) return false;
       if (q && plano(c.descripcion + ' ' + c.organismo).indexOf(q) < 0) return false;

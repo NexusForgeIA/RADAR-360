@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   var COLOR = { 'Agro, pesca y animales': '#16a34a', 'Educación y becas': '#3b82f6', 'Social y salud': '#f43f5e', 'Cultura y festejos': '#a855f7',
-    'Deporte': '#f59e0b', 'Empresas y empleo': '#06b6d4', 'Vivienda y fachadas': '#f97316', 'Otros': '#64748b' };
+    'Deporte': '#f59e0b', 'Empresas y empleo': '#06b6d4', 'Vivienda y fachadas': '#f97316', 'Energía y medio ambiente': '#84cc16', 'Concesión directa y convenios': '#94a3b8', 'Otros': '#64748b' };
   var GREEN = '#22c55e', PURPLE = '#6d4aff', NS = 'http://www.w3.org/2000/svg';
   var MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
   var $ = function (id) { return document.getElementById(id); };
@@ -100,7 +100,7 @@
   function kpis() {
     var c = $('kpis'); c.textContent = '';
     var ult = dias[dias.length - 1], ult14 = dias.slice(-14).reduce(function (s, d) { return s + D.serie[d]; }, 0);
-    var fich = D.convocatorias.filter(function (x) { return x.ficha; });
+    var fich = D.convocatorias.filter(function (x) { return x.ficha && x.tema !== 'Concesión directa y convenios'; });
     var vig = fich.filter(function (x) { return x.fin && x.fin >= hoy; }).length;
     var neg = fich.filter(function (x) { return (x.perfiles || []).indexOf('negocio') >= 0; }).length;
     function card(t, v, s, col, ic) {
@@ -108,12 +108,12 @@
       var k = el('div', 'corner', ic); k.style.setProperty('--c', col); d.appendChild(k); c.appendChild(d);
     }
     card('Convocatorias en 14 días', fmt(ult14), 'Último día con datos: ' + larga(ult) + ' (' + fmt(D.serie[ult]) + ')', '#16a34a', '⬇');
-    card('Con plazo vigente', fich.length ? fmt(vig) : '—', fich.length ? 'de ' + fmt(fich.length) + ' fichas con datos cargados' : 'Pendiente de cargar las fichas oficiales', PURPLE, '⏱');
+    card('Con plazo vigente', fich.length ? fmt(vig) : '—', fich.length ? 'de ' + fmt(fich.length) + ' convocatorias abiertas a solicitud (sin concesiones directas)' : 'Pendiente de cargar las fichas oficiales', PURPLE, '⏱');
     card('Para negocios y autónomos', fich.length ? fmt(neg) : '—', fich.length ? 'según el tipo de beneficiario oficial' : 'Pendiente de cargar las fichas oficiales', '#f59e0b', '★');
   }
 
   function metricas() {
-    var fich = D.convocatorias.filter(function (x) { return x.ficha; });
+    var fich = D.convocatorias.filter(function (x) { return x.ficha && x.tema !== 'Concesión directa y convenios'; });
     var neg = fich.filter(function (x) { return (x.perfiles || []).indexOf('negocio') >= 0; }).length;
     var pct = fich.length ? Math.round(100 * neg / fich.length) : null, d = $('donut'); d.textContent = '';
     var svg = sv('svg', { viewBox: '0 0 120 120' }), r = 50, c = 2 * Math.PI * r;
@@ -142,7 +142,7 @@
 
   function cierres() {
     var l = $('todo'); l.textContent = '';
-    var prox = D.convocatorias.filter(function (c) { return c.ficha && c.fin && c.fin >= hoy; }).sort(function (a, b) { return a.fin < b.fin ? -1 : 1; }).slice(0, 5);
+    var prox = D.convocatorias.filter(function (c) { return c.ficha && c.tema !== 'Concesión directa y convenios' && c.fin && c.fin >= hoy; }).sort(function (a, b) { return a.fin < b.fin ? -1 : 1; }).slice(0, 5);
     prox.forEach(function (c) {
       var li = document.createElement('li'), a = el('a', '', c.descripcion.length > 70 ? c.descripcion.slice(0, 68) + '…' : c.descripcion);
       a.href = c.url; a.target = '_blank'; a.rel = 'noopener'; li.appendChild(a);

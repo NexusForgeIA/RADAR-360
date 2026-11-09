@@ -3,8 +3,8 @@
   // Perfil → temas que se priorizan (orientación por palabras clave, no elegibilidad).
   // Con ficha oficial se usa el tipo de beneficiario de BDNS; sin ficha, estos temas como orientación.
   var PERFIL_TEMAS = {
-    negocio: ['Empresas y empleo', 'Vivienda y fachadas', 'Agro, pesca y animales'],
-    empresa: ['Empresas y empleo'],
+    negocio: ['Empresas y empleo', 'Energía y medio ambiente', 'Vivienda y fachadas', 'Agro, pesca y animales'],
+    empresa: ['Empresas y empleo', 'Energía y medio ambiente'],
     persona: ['Educación y becas', 'Social y salud', 'Vivienda y fachadas', 'Deporte'],
     entidad: ['Cultura y festejos', 'Deporte', 'Social y salud', 'Otros']
   };
@@ -12,7 +12,7 @@
   var COLOR = {
     'Agro, pesca y animales': '#16a34a', 'Educación y becas': '#2563eb', 'Social y salud': '#e11d48',
     'Cultura y festejos': '#a855f7', 'Deporte': '#f59e0b', 'Empresas y empleo': '#0891b2',
-    'Vivienda y fachadas': '#ea580c', 'Otros': '#64748b'
+    'Vivienda y fachadas': '#ea580c', 'Energía y medio ambiente': '#65a30d', 'Concesión directa y convenios': '#94a3b8', 'Otros': '#64748b'
   };
   var AMBITOS = { LOCAL: 'Local', AUTONOMICA: 'Autonómico', ESTADO: 'Estatal', OTROS: 'Otros' };
   var COL_AMB = { LOCAL: '#00e08a', AUTONOMICA: '#3b82f6', ESTADO: '#f59e0b', OTROS: '#94a3b8' };
@@ -33,7 +33,7 @@
       if (am && c.ambito !== am) return false;
       if (cc && !(c.nacional || (c.ccaa || []).indexOf(cc) >= 0)) return false;
       if (pv && !(c.nacional || (c.ccaa || []).indexOf(cc) >= 0 && (c.provincias || []).length === 0 || (c.provincias || []).indexOf(pv) >= 0)) return false;
-      if (vig && !(c.fin && c.fin >= hoy)) return false;
+      if (vig && (c.tema === 'Concesión directa y convenios' || !(c.fin && c.fin >= hoy))) return false;
       if (temaSel && c.tema !== temaSel) return false;
       if (orgSel && c.organismo !== orgSel) return false;
       if (pf && (c.ficha ? (c.perfiles || []).indexOf(pf) < 0 : !temaSel && PERFIL_TEMAS[pf].indexOf(c.tema) < 0)) return false;
@@ -131,6 +131,7 @@
     var f = el('div', 'facts');
     if (!c.ficha) { f.appendChild(el('span', '', 'Ficha oficial pendiente de cargar')); return f; }
     if (c.presupuesto) { var p = el('span'); p.appendChild(el('b', '', 'Presupuesto: ')); p.appendChild(document.createTextNode(euros(c.presupuesto))); f.appendChild(p); }
+    if (c.tema === 'Concesión directa y convenios') { f.appendChild(el('span', '', 'Concesión directa a una entidad concreta: no es una convocatoria abierta a solicitudes')); return f; }
     var pl = el('span'); pl.appendChild(el('b', '', 'Plazo: '));
     if (c.fin) { var v = c.fin >= hoy; var t = el('span', v ? 'plazo-ok' : '', (c.inicio ? fecha(c.inicio) + ' → ' : 'hasta ') + fecha(c.fin) + (v ? '' : ' (cerrado)')); pl.appendChild(t); }
     else pl.appendChild(document.createTextNode('ver plazo en la ficha'));

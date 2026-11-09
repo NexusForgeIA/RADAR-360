@@ -31,5 +31,16 @@ class T(unittest.TestCase):
             "tiposBeneficiarios": [{"descripcion": "GRAN EMPRESA"}], "regiones": [{"descripcion": "ES413 - León"}], "sectores": [{"descripcion": "X"}]})
         self.assertEqual((r["presupuesto"], r["fin"], r["inicio"], r["provincias"], r["perfiles"]), (545000, "2026-12-01", None, ["León"], ["empresa"]))
 
+class TemaTest(unittest.TestCase):
+    def test_nominativa_y_departamento(self):
+        self.assertEqual(radar.tema("CONVENIO ENTRE EL DEPARTAMENTO DE PRESIDENCIA, JUSTICIA, CULTURA Y DEPORTE Y LA COMARCA DE X"), "Concesión directa y convenios")
+        self.assertEqual(radar.tema("Ayudas del Departamento de Cultura y Deporte para clubes de fútbol"), "Deporte")
+        self.assertEqual(radar.tema("Ayudas a pymes para autoconsumo fotovoltaico"), "Energía y medio ambiente")
+        self.assertEqual(radar.tema("Fundació Pau Casals", ["ACTIVIDADES ARTÍSTICAS, DEPORTIVAS Y DE ENTRETENIMIENTO"]), "Cultura y festejos")
+        self.assertEqual(radar.tema("xyz"), "Otros")
+        self.assertEqual(radar.tema("Ayudas para pymes", None, "Concesión directa - instrumental"), "Concesión directa y convenios")
+        self.assertEqual(radar.tema("Convenio de ayudas a empresas", None, "Concurrencia competitiva - canónica"), "Empresas y empleo")
+
+
 if __name__ == "__main__":
     unittest.main()

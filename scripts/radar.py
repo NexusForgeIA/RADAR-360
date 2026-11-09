@@ -6,21 +6,44 @@ import unicodedata
 BDNS_FICHA = "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/{n}"
 
 # Orden = prioridad: gana el primer tema cuyas palabras aparezcan en la descripción.
+# «Concesión directa y convenios» va primero: son concesiones directas a una entidad concreta, no convocatorias abiertas.
+NOMINATIVAS = "Concesión directa y convenios"
 TEMAS = [
+    (NOMINATIVAS, ["nominativ", "convenio", "subvencion directa", "subvencion excepcional", "cuota anual", "plan estrategico de subvenciones",
+                   "resolucion de concesion"]),
     ("Agro, pesca y animales", ["ganader", "agri", "agrar", "agro", "pesc", "acuicol", "animal", "felin", "colonas", "palomas",
                                 "rural", "forestal", "regadi", "vino", "apicul"]),
+    ("Energía y medio ambiente", ["energ", "fotovolt", "autoconsumo", "recarga", "renovable", "medioambient", "medio ambiente",
+                                  "residuos", "climat", "sostenib", "eolic", "hidrogeno", "descarboniz"]),
     ("Vivienda y fachadas", ["vivienda", "fachada", "rehabilit", "inmueble", "vivenda", "accesibilidad"]),
-    ("Deporte", ["deport", "futbol", "club", "esport", "atlet"]),
+    ("Deporte", ["deport", "futbol", "club", "esport", "atlet", "competicion"]),
     ("Educación y becas", ["beca", "estudi", "escolar", "educa", "alumn", "doctor", "universit", "formacion", "ampa",
-                           "investigador", "matricula", "curso 20"]),
+                           "investigador", "matricula", "curso 20", "practicas profesionales"]),
     ("Social y salud", ["social", "salud", "sanit", "dependencia", "discapac", "enfermedad", "igualtat", "igualdad",
-                        "cooperacion", "mayores", "jubilad", "inclusiv", "familia", "infancia", "farmac", "ela "]),
+                        "cooperacion", "mayores", "jubilad", "inclusiv", "familia", "infancia", "farmac", "ela ", "voluntari",
+                        "solidari", "juventud", "mujer"]),
     ("Empresas y empleo", ["empresa", "autonom", "emprended", "comercio", "comercial", "empleo", "contratacion",
-                           "desemplead", "empresarial", "industri", "exterior", "turism"]),
+                           "desemplead", "empresarial", "industri", "exterior", "turism", "bono consumo", "innovacion"]),
     ("Cultura y festejos", ["cultur", "festej", "fiesta", "concurso", "navide", "carnaval", "musica", "teatro",
-                            "cartel", "patrimonio", "biblioteca", "artistic"]),
+                            "cartel", "patrimonio", "biblioteca", "artistic", "artes escenicas", "espectaculo", "premio"]),
 ]
 OTROS = "Otros"
+
+# Sectores oficiales de la ficha (texto en minúsculas sin tildes) → tema, solo cuando las palabras clave del título no deciden.
+SECTORES = [
+    ("artisticas, deportivas", "Cultura y festejos"),
+    ("sanitarias y de servicios sociales", "Social y salud"), ("servicios sociales", "Social y salud"),
+    ("educacion", "Educación y becas"), ("deportiv", "Deporte"),
+    ("bibliotecas", "Cultura y festejos"), ("creacion artistica", "Cultura y festejos"), ("artisticas", "Cultura y festejos"),
+    ("agricultura", "Agro, pesca y animales"), ("ganaderia", "Agro, pesca y animales"), ("pesca", "Agro, pesca y animales"),
+    ("energia", "Energía y medio ambiente"), ("suministro de energia", "Energía y medio ambiente"),
+    ("comercio", "Empresas y empleo"), ("hosteleria", "Empresas y empleo"), ("industria", "Empresas y empleo"),
+    ("construccion", "Vivienda y fachadas"), ("actividades inmobiliarias", "Vivienda y fachadas"),
+]
+
+# Cláusulas con el nombre de un departamento u organismo («Departamento de Presidencia, Justicia, Cultura y Deporte»)
+# que no dicen de qué trata la ayuda y confunden a las palabras clave.
+_ORG = re.compile(r"\b(departamento|consejeria|concejalia|delegacion|vicepresidencia|instituto|direccion general|area) (de|del|de la|de los|de las) [^,.;:]{0,90}?(?= y la | y el | y las | y los |,|\.|;|:| en relacion| para |$)")
 
 
 def _plano(s):
@@ -28,11 +51,22 @@ def _plano(s):
     return re.sub(r"\s+", " ", s)
 
 
-def tema(descripcion):
-    d = _plano(descripcion)
+def tema(descripcion, sectores=None, tipo=None):
+    """tipo = tipo oficial de la convocatoria (ficha): «Concesión directa…» o «Concurrencia competitiva…»; manda sobre las palabras clave."""
+    d = _ORG.sub(" ", _plano(descripcion))
+    t = _plano(tipo)
+    if t.startswith("concesion directa"):
+        return NOMINATIVAS
     for nombre, claves in TEMAS:
+        if nombre == NOMINATIVAS and t.startswith("concurrencia"):
+            continue
         if any(c in d for c in claves):
             return nombre
+    for sec in sectores or []:
+        s = _plano(sec)
+        for clave, nombre in SECTORES:
+            if clave in s:
+                return nombre
     return OTROS
 
 

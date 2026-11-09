@@ -107,6 +107,8 @@ def main():
     todas = [c for c in por_num.values() if c["fecha"] >= limite or (c.get("fin") or "") >= hoy.isoformat()]
     if not a.from_file:
         completa(todas, hoy)
+    for c in todas:                                         # el tema se recalcula siempre con la versión vigente de las reglas
+        c["tema"] = radar.tema(c["descripcion"], c.get("sectores"), c.get("tipo"))
     todas.sort(key=lambda c: (c["fecha"], c["numero"]), reverse=True)
     os.makedirs(os.path.dirname(SALIDA), exist_ok=True)
     json.dump({"actualizado": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "fuente": "BDNS · infosubvenciones.es",

@@ -13,8 +13,8 @@ MAX_LISTA = 60    # máximo de convocatorias listadas por página
 IMG = BASE + "/assets/img/og-radar360.png"
 
 PERFIL_TEMAS = {
-    "negocio": ["Empresas y empleo", "Vivienda y fachadas", "Agro, pesca y animales"],
-    "empresa": ["Empresas y empleo"],
+    "negocio": ["Empresas y empleo", "Energía y medio ambiente", "Vivienda y fachadas", "Agro, pesca y animales"],
+    "empresa": ["Empresas y empleo", "Energía y medio ambiente"],
     "persona": ["Educación y becas", "Social y salud", "Vivienda y fachadas", "Deporte"],
     "entidad": ["Cultura y festejos", "Deporte", "Social y salud", "Otros"],
 }
@@ -145,7 +145,7 @@ def main():
         grupos.append((f"{sl}/", h1, f"{h1} · RADAR 360",
                        f"Convocatorias recientes de ayudas y subvenciones para {quien} publicadas en la BDNS, con enlace a la ficha oficial.",
                        f"Convocatorias de ayudas y subvenciones recientes que, según la BDNS o por orientación automática, se dirigen a {quien}.", lista))
-    for t in sorted({c["tema"] for c in regs if c.get("tema") and c["tema"] != "Otros"}):
+    for t in sorted({c["tema"] for c in regs if c.get("tema") and c["tema"] not in ("Otros", "Concesión directa y convenios")}):
         lista = [c for c in regs if c.get("tema") == t]
         grupos.append((f"{slug(t)}/", f"Ayudas y subvenciones: {t}", f"Ayudas y subvenciones de {t} · RADAR 360",
                        f"Convocatorias recientes de ayudas y subvenciones del tema «{t}» publicadas en la BDNS, con enlace oficial.",
