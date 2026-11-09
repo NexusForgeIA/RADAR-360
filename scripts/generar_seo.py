@@ -100,6 +100,12 @@ def pagina(ruta, titulo, h1, desc, intro, lista, total, actualizado, enlaces, cr
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{IMG}">
 <link rel="stylesheet" href="/assets/style.css">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#071024">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RADAR 360">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 </head>
 <body>
@@ -128,6 +134,7 @@ def pagina(ruta, titulo, h1, desc, intro, lista, total, actualizado, enlaces, cr
   </ul>
 </main>
 <footer><div class="wrap"><a href="/aviso-legal/">Aviso legal</a> · <a href="/privacidad/">Privacidad</a> · <a href="/cookies/">Cookies</a><br>RADAR 360 · proyecto de <a href="https://whitemoon.es" rel="noopener">WhiteMoon</a>. Información orientativa de fuentes oficiales: más detalle en el <a href="/aviso-legal/">aviso legal</a>.</div></footer>
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>
 '''

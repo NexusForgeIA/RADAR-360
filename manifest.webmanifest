@@ -1,0 +1,32 @@
+{
+ "name": "RADAR 360 · Ayudas y licitaciones",
+ "short_name": "RADAR 360",
+ "description": "Subvenciones y licitaciones públicas de toda España, gratis y sin registro.",
+ "start_url": "/?utm_source=app",
+ "scope": "/",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#071024",
+ "theme_color": "#071024",
+ "lang": "es",
+ "icons": [
+  {
+   "src": "/assets/img/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/assets/img/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/assets/img/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
