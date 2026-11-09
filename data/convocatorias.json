@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-09T18:55Z",
+ "actualizado": "2026-11-09T19:06Z",
  "fuente": "BDNS · infosubvenciones.es",
  "serie": {
   "2026-10-26": 354,
@@ -75346,7 +75346,25 @@
    "organismo": "CONSEJERÍA DE AGRICULTURA, GANADERÍA, MUNDO RURAL Y MEDIO AMBIENTE",
    "descripcion": "Convenio para mantenimiento Venta Piqueras lugar emblemático",
    "tema": "Concesión directa y convenios",
-   "url": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/938035"
+   "url": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/938035",
+   "presupuesto": 10000,
+   "inicio": null,
+   "fin": "2026-12-31",
+   "perfiles": [
+    "entidad"
+   ],
+   "sectores": [
+    "Actividades asociativas"
+   ],
+   "tipo": "Concesión directa - instrumental",
+   "nacional": false,
+   "ccaa": [
+    "La Rioja"
+   ],
+   "provincias": [
+    "La Rioja"
+   ],
+   "ficha": true
   },
   {
    "numero": "938034",
