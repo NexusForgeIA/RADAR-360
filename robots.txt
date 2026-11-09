@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://radar360pymes.onrender.com/sitemap.xml
