@@ -94,7 +94,7 @@
 
   function render() {
     var r = filtradas(), lista = $('lista');
-    paneles(); chipsFiltro();
+    paneles(); chipsFiltro(); if ($('alt-resumen')) resumenAlerta();
     lista.textContent = '';
     r.slice(0, visibles).forEach(function (c) {
       var li = el('li', 'card'), meta = el('div', 'meta');
@@ -175,6 +175,43 @@
     }
   }
 
+  // ---- Alertas (lista de espera): una sola puerta, la función pública radar360_suscribir en Supabase.
+  var SB_URL = 'https://mlaqtniujnvfxcvcourm.supabase.co', SB_KEY = 'sb_publishable_6no6BuOgiA_2nonTJntAuQ_DTqEgrcV';   // clave publicable: pensada para el navegador
+  var CONSENT = 'Acepto que Cristobal Martinez Comas (WhiteMoon) use mi email para avisarme de convocatorias que coincidan con estos filtros, según la política de privacidad de RADAR 360. Puedo darme de baja en cualquier momento.';
+  function filtrosAlerta() {
+    return { perfil: $('perfil').value, ccaa: $('ccaa').value, provincia: $('prov').value, tema: temaSel, texto: $('q').value.trim().slice(0, 100) };
+  }
+  function resumenAlerta() {
+    var f = filtrosAlerta(), p = [];
+    if (f.perfil) p.push(PERFIL_TXT[f.perfil]); if (f.provincia) p.push(f.provincia); else if (f.ccaa) p.push(f.ccaa); else p.push('toda España');
+    if (f.tema) p.push(f.tema); if (f.texto) p.push('«' + f.texto + '»');
+    $('alt-resumen').textContent = 'Filtros actuales: ' + p.join(' · ');
+  }
+  function alertas() {
+    $('alt-consent-txt').textContent = CONSENT;
+    ['perfil', 'ccaa', 'prov', 'q'].forEach(function (id) { $(id).addEventListener(id === 'q' ? 'input' : 'change', resumenAlerta); });
+    resumenAlerta();
+    $('alt-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var msg = $('alt-msg'), em = $('alt-email'), btn = $('alt-btn'); msg.className = 'alt-msg';
+      if (!em.value.trim() || !em.checkValidity()) { msg.textContent = 'Escribe un email válido.'; msg.className = 'alt-msg err'; return; }
+      if (!$('alt-ok').checked) { msg.textContent = 'Marca la casilla de consentimiento para apuntarte.'; msg.className = 'alt-msg err'; return; }
+      var f = filtrosAlerta(); btn.disabled = true; msg.textContent = 'Guardando…';
+      fetch(SB_URL + '/rest/v1/rpc/radar360_suscribir', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY },
+        body: JSON.stringify({ p_email: em.value.trim(), p_perfil: f.perfil, p_ccaa: f.ccaa, p_provincia: f.provincia, p_tema: f.tema, p_texto: f.texto, p_consentimiento: CONSENT })
+      }).then(function (r) {
+        if (r.ok) { msg.textContent = '¡Apuntado! Aún no enviamos alertas: te escribiremos a ese email para que confirmes cuando las activemos.'; msg.className = 'alt-msg ok'; em.value = ''; $('alt-ok').checked = false; return; }
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          var m = (j && j.message) || '';
+          msg.textContent = m.indexOf('demasiadas') >= 0 ? 'Hay mucha actividad ahora mismo. Inténtalo en un rato.' : m.indexOf('email_invalido') >= 0 ? 'Ese email no parece válido.' : 'No hemos podido guardarlo. Inténtalo de nuevo más tarde.';
+          msg.className = 'alt-msg err';
+        });
+      }).catch(function () { msg.textContent = 'No hemos podido guardarlo. Inténtalo de nuevo más tarde.'; msg.className = 'alt-msg err'; })
+        .then(function () { btn.disabled = false; });
+    });
+  }
+
   fetch('data/convocatorias.json').then(function (r) { return r.json(); }).then(function (j) {
     datos = j.convocatorias || [];
     datos.forEach(function (c) { if (c.fecha > ultima) ultima = c.fecha; });
@@ -182,7 +219,7 @@
     var vistos = {}; datos.forEach(function (c) { vistos[c.ambito] = 1; });
     Object.keys(vistos).forEach(function (a) { var o = el('option', '', AMBITOS[a] || a); o.value = a; $('ambito').appendChild(o); });
     $('actualizado').textContent = 'Última actualización de datos: ' + (j.actualizado || 'desconocida') + ' · ' + (j.fuente || '');
-    territorios(); kpis(); blips(); render();
+    territorios(); kpis(); blips(); render(); alertas();
   }).catch(function () {
     $('cuenta').textContent = 'No se han podido cargar las convocatorias. Inténtalo de nuevo más tarde.';
   });
