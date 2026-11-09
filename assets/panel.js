@@ -170,9 +170,8 @@
   }
 
   function saludo() {
-    var h = new Date().getHours();
-    $('saludo').textContent = (h < 13 ? 'Buenos días' : h < 21 ? 'Buenas tardes' : 'Buenas noches') + ', Cris';
-    $('sub').textContent = 'Esto es lo que se está publicando en la BDNS, para toda España.';
+    $('saludo').textContent = 'Panel de ayudas y subvenciones';
+    $('sub').textContent = 'Lo que se publica en la BDNS, para toda España. Datos oficiales y gratuitos.';
     var u = (D.actualizado || '').match(/^(\d{4})-(\d\d)-(\d\d)T(\d\d:\d\d)/);
     $('upd').textContent = 'Datos actualizados: ' + (u ? u[3] + '/' + u[2] + '/' + u[1] + ' ' + u[4] + ' UTC' : 'desconocido') + ' · Fuente: BDNS (IGAE)';
   }
