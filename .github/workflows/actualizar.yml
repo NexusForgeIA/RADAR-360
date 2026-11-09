@@ -19,4 +19,4 @@ jobs:
           git config user.name "radar360-bot"
           git config user.email "bot@users.noreply.github.com"
           git add data/convocatorias.json
-          git diff --cached --quiet || (git commit -m "datos: actualización BDNS" && git push)
+          git diff --cached --quiet || (git commit -m "datos: actualización BDNS" && git pull --rebase -X theirs origin main && git push)
