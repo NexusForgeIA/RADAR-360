@@ -174,14 +174,23 @@
     });
   }
 
-  function blips() {
-    var cont = $('blips'); cont.textContent = '';
-    var n = Math.min(14, datos.length);
-    for (var i = 0; i < n; i++) {
-      var ang = (i * 137.5) * Math.PI / 180, rad = 0.18 + 0.78 * (((i * 53) % 100) / 100) * 0.5 + 0.16 * (i % 3);
-      var b = el('i', 'blip'); b.style.left = (50 + 46 * rad * Math.cos(ang)) + '%'; b.style.top = (50 + 46 * rad * Math.sin(ang)) + '%';
-      b.style.animationDelay = (-(ang / (2 * Math.PI)) * 5) + 's'; cont.appendChild(b);
+  // Móvil de la portada: muestra convocatorias reales (las de cierre más próximo; si no hay plazos, las más recientes).
+  function movil() {
+    var ul = $('phone-list'); if (!ul) return; ul.textContent = '';
+    var DIR = 'Concesión directa y convenios';
+    var ok = datos.filter(function (c) { return c.tema !== DIR; });
+    var conPlazo = ok.filter(function (c) { return c.fin && c.fin >= hoy; }).sort(function (x, y) { return x.fin < y.fin ? -1 : 1; });
+    var lista = (conPlazo.length >= 5 ? conPlazo : ok).slice(0, 7);
+    function tarjeta(c) {
+      var li = el('li'); li.style.setProperty('--c', color(c.tema));
+      li.appendChild(el('em', '', c.tema));
+      li.appendChild(el('b', '', c.descripcion));
+      li.appendChild(el('small', '', c.organismo + (c.fin && c.fin >= hoy ? ' · cierra ' + fecha(c.fin) : '')));
+      return li;
     }
+    lista.forEach(function (c) { ul.appendChild(tarjeta(c)); });
+    if (!reduce) lista.forEach(function (c) { ul.appendChild(tarjeta(c)); });   // duplicado para el bucle de desplazamiento
+    ul.className = reduce ? '' : 'rueda';
   }
 
   // ---- Alertas (lista de espera): una sola puerta, la función pública radar360_suscribir en Supabase.
@@ -227,7 +236,7 @@
     hayViejas = datos.some(function (c) { return c.fecha < ultima; });
     cuenta(datos, 'tema').forEach(function (t) { if (t[0] === 'Otros') return; var o = el('option', '', t[0] + ' (' + t[1] + ')'); o.value = t[0]; $('tema').appendChild(o); });
     $('actualizado').textContent = 'Última actualización de datos: ' + (j.actualizado || 'desconocida') + ' · ' + (j.fuente || '');
-    territorios(); leeUrl(); kpis(); blips(); render(); alertas();
+    territorios(); leeUrl(); kpis(); movil(); render(); alertas();
   }).catch(function () {
     $('cuenta').textContent = 'No se han podido cargar las convocatorias. Inténtalo de nuevo más tarde.';
   });
