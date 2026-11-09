@@ -183,7 +183,7 @@ def main():
     idx = re.sub(r"\s*<h2>Más búsquedas</h2>\s*<nav class=\"seo-nav\"></nav>", "", idx)
     (salida / "index.html").write_text(idx, encoding="utf-8")
 
-    urls = [f"{BASE}/", f"{BASE}/panel/", f"{BASE}/ayudas/", f"{BASE}/licitaciones/"] + [f"{BASE}/ayudas/{g[0]}" for g in grupos]
+    urls = [f"{BASE}/", f"{BASE}/panel/", f"{BASE}/ayudas/", f"{BASE}/licitaciones/", f"{BASE}/puedo-optar/"] + [f"{BASE}/ayudas/{g[0]}" for g in grupos]
     mod = act[:10]
     (RAIZ / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

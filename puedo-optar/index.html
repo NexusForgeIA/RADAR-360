@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>¿Puedo optar a una ayuda o licitación? · RADAR 360</title>
+<meta name="description" content="Responde 4 preguntas y ve qué ayudas y licitaciones abiertas encajan con tu perfil, tu zona y lo que buscas. Gratis, sin registro y con enlace a la fuente oficial.">
+<link rel="canonical" href="https://radar360pymes.onrender.com/puedo-optar/">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RADAR 360">
+<meta property="og:url" content="https://radar360pymes.onrender.com/puedo-optar/">
+<meta property="og:title" content="¿Puedo optar a una ayuda o licitación? · RADAR 360">
+<meta property="og:description" content="4 preguntas y ves qué ayudas y licitaciones abiertas encajan contigo. Gratis y sin registro.">
+<meta property="og:image" content="https://radar360pymes.onrender.com/assets/img/og-radar360.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://radar360pymes.onrender.com/assets/img/og-radar360.png">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="logo" href="../" aria-label="RADAR 360 · inicio"><img src="../assets/img/logo-nav.png" alt="RADAR 360" width="112" height="48"></a>
+  <span class="tag"><a href="../" class="navlink">Ayudas</a><a href="../licitaciones/" class="navlink">Licitaciones</a><a href="../panel/" class="navlink">Panel</a></span>
+</div></header>
+<main class="wrap seo">
+  <p class="crumbs"><a href="../">RADAR 360</a> › ¿Puedo optar?</p>
+  <h1>¿Puedo optar a una ayuda o licitación?</h1>
+  <p class="lead2">Cuatro preguntas y te enseño lo que hay abierto ahora y encaja con tu caso, con enlace a la ficha oficial. Sin registro y sin guardar tus respuestas.</p>
+  <form class="lic-f po" id="f" onsubmit="return false">
+    <label>1. ¿Quién eres?
+      <select id="perfil">
+        <option value="negocio">Autónomo, pyme o emprendedor</option>
+        <option value="empresa">Gran empresa</option>
+        <option value="persona">Persona, familia o estudiante</option>
+        <option value="entidad">Asociación o entidad sin ánimo de lucro</option>
+      </select></label>
+    <label>2. ¿Dónde?
+      <select id="ccaa"><option value="">Toda España</option></select></label>
+    <label>3. ¿Qué te interesa?
+      <select id="tema"><option value="">Cualquier tema</option></select></label>
+    <label class="grow">4. Una palabra clave (opcional)
+      <input id="q" type="search" placeholder="reforma, digitalización, formación…" autocomplete="off"></label>
+    <button id="go" class="cta" type="submit">Ver lo que encaja</button>
+  </form>
+  <section id="res" hidden>
+    <h2 id="r-ay">Ayudas</h2>
+    <p class="count" id="r-ay-n"></p>
+    <ul class="seo-list" id="l-ay"></ul>
+    <h2 id="r-li">Licitaciones</h2>
+    <p class="count" id="r-li-n"></p>
+    <ul class="seo-list" id="l-li"></ul>
+  </section>
+  <h2>Qué significa «encaja»</h2>
+  <ul>
+    <li>Cruzamos tu perfil, zona y tema con las convocatorias de la BDNS que están abiertas o sin plazo indicado, y con las licitaciones publicadas con plazo vigente.</li>
+    <li><b>Encajar no es cumplir los requisitos.</b> Solo la convocatoria oficial dice quién puede optar, qué se exige y hasta cuándo. RADAR 360 no tramita solicitudes ni garantiza la concesión.</li>
+    <li>Las licitaciones se muestran para negocios, grandes empresas y entidades; son contratos públicos, no ayudas.</li>
+    <li>El tema se asigna por palabras clave del título y puede fallar.</li>
+  </ul>
+</main>
+<footer><div class="wrap">RADAR 360 · proyecto de <a href="https://whitemoon.es" rel="noopener">WhiteMoon</a>.<br>
+Origen de los datos: BDNS (Intervención General de la Administración del Estado) y Plataforma de Contratación del Sector Público. Sitio independiente, sin respaldo oficial. <a href="../privacidad/">Privacidad</a></div></footer>
+<script src="../assets/puedo-optar.js"></script>
+</body>
+</html>
