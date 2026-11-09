@@ -6,8 +6,9 @@ a{color:var(--volink)}
 .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
 button{font:inherit;cursor:pointer}
 
-.top{background:var(--night);color:#fff;position:sticky;top:0;z-index:5;border-bottom:1px solid #16264a}
-.bar{display:flex;justify-content:space-between;align-items:center;height:56px}
+.top{background:#00071e;color:#fff;position:sticky;top:0;z-index:5;border-bottom:1px solid #16264a}
+.bar{display:flex;justify-content:space-between;align-items:center;height:64px}
+.logo img{display:block;height:48px;width:auto}
 .logo{color:#fff;text-decoration:none;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;gap:10px}
 .logo b{color:var(--vol)}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--vol);box-shadow:0 0 0 4px rgba(0,224,138,.25)}
