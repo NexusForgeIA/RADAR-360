@@ -6,6 +6,7 @@ from collections import Counter
 from datetime import date
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 RAIZ = Path(__file__).resolve().parent.parent
 BASE = "https://radar360pymes.onrender.com"
 MIN = 5           # mínimo de convocatorias para publicar una página
@@ -190,6 +191,11 @@ def main():
     (salida / "index.html").write_text(idx, encoding="utf-8")
 
     urls = [f"{BASE}/", f"{BASE}/panel/", f"{BASE}/ayudas/", f"{BASE}/licitaciones/", f"{BASE}/mercado/", f"{BASE}/puedo-optar/", f"{BASE}/criba-go-no-go/", f"{BASE}/aviso-legal/", f"{BASE}/privacidad/", f"{BASE}/cookies/"] + [f"{BASE}/ayudas/{g[0]}" for g in grupos]
+    try:  # páginas por organismo (necesitan data/mercado.json; sin él, solo se omiten)
+        import generar_organismos
+        urls += generar_organismos.genera()
+    except ImportError as e:
+        print("organismos omitidos:", e)
     mod = act[:10]
     (RAIZ / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
