@@ -89,6 +89,10 @@ def pagina(ruta, titulo, h1, desc, intro, lista, total, actualizado, enlaces, cr
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/img/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RADAR 360">
 <meta property="og:locale" content="es_ES">

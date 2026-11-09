@@ -72,6 +72,10 @@ def pagina(o, slug_o, adj, abiertas, vecinos, actualizado):
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/img/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RADAR 360">
 <meta property="og:locale" content="es_ES">
@@ -159,6 +163,10 @@ def genera():
 <title>Organismos contratantes: adjudicaciones y licitaciones · RADAR 360</title>
 <meta name="description" content="Directorio de organismos públicos con sus contratos adjudicados, ofertas recibidas y licitaciones abiertas. Datos de la Plataforma de Contratación.">
 <link rel="canonical" href="{BASE}/organismos/"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/img/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicon-192.png">
 <meta property="og:image" content="{IMG}"><link rel="stylesheet" href="/assets/style.css"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#071024">
 </head><body>
 <header class="top"><div class="wrap bar"><a class="logo" href="/" aria-label="RADAR 360 · inicio"><img src="/assets/img/logo-nav.png" alt="RADAR 360" width="112" height="48"></a>
