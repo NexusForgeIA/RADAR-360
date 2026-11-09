@@ -41,28 +41,38 @@
         <h1>Hay ayudas esperando <span>a tu actividad.</span></h1>
         <p class="lead">Dime quién eres y qué buscas. Te enseño las convocatorias recién publicadas en la Base de Datos Nacional de Subvenciones, con enlace a la fuente oficial.</p>
         <form id="f" class="search" role="search" onsubmit="return false">
-          <label>Mi perfil
-            <select id="perfil">
-              <option value="">Todos</option>
-              <option value="negocio">Negocio (autónomo, pyme, emprendedor)</option>
-              <option value="empresa">Gran empresa</option>
-              <option value="persona">Persona, familia o estudiante</option>
-              <option value="entidad">Asociación o entidad sin ánimo de lucro</option>
-            </select>
+          <label class="big">¿Qué buscas?
+            <input id="q" type="search" placeholder="reforma, digitalización, becas, energía solar, formación…" autocomplete="off">
           </label>
-          <label>Comunidad
-            <select id="ccaa"><option value="">Toda España</option></select>
-          </label>
-          <label>Provincia
-            <select id="prov" disabled><option value="">Todas</option></select>
-          </label>
-          <label>Ámbito
-            <select id="ambito"><option value="">Todos</option></select>
-          </label>
-          <label class="grow">Busco…
-            <input id="q" type="search" placeholder="digitalización, becas, fachadas, deporte…" autocomplete="off">
-          </label>
-          <label class="chk"><input id="vigente" type="checkbox"> Solo con plazo vigente</label>
+          <div class="quien" role="group" aria-label="Quién eres">
+            <span class="lbl">Soy…</span>
+            <button type="button" data-p="negocio">Autónomo o pyme</button>
+            <button type="button" data-p="empresa">Gran empresa</button>
+            <button type="button" data-p="persona">Persona o familia</button>
+            <button type="button" data-p="entidad">Asociación o entidad</button>
+            <input type="hidden" id="perfil" value="">
+          </div>
+          <div class="filtros">
+            <label>Comunidad<select id="ccaa"><option value="">Toda España</option></select></label>
+            <label>Provincia<select id="prov" disabled><option value="">Todas</option></select></label>
+            <label>Sector<select id="tema"><option value="">Todos</option></select></label>
+            <label>Importe<select id="imp">
+              <option value="">Cualquiera</option>
+              <option value="0-10000">Hasta 10.000 €</option>
+              <option value="10000-100000">10.000 – 100.000 €</option>
+              <option value="100000-1000000">100.000 – 1 M€</option>
+              <option value="1000000-">Más de 1 M€</option></select></label>
+            <label>Estado<select id="est">
+              <option value="solicitables">Ayudas que puedes solicitar</option>
+              <option value="abiertas">Solo con plazo abierto</option>
+              <option value="cierran30">Cierran en 30 días</option>
+              <option value="todas">Todo, con concesiones directas</option></select></label>
+            <label>Ordenar por<select id="ord">
+              <option value="recientes">Más recientes</option>
+              <option value="cierre">Cierre más próximo</option>
+              <option value="importe">Mayor importe</option></select></label>
+          </div>
+          <button type="button" id="limpiar" class="limpiar">Limpiar filtros</button>
         </form>
       </div>
       <div class="radar" aria-hidden="true">

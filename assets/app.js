@@ -19,7 +19,7 @@
   var PAGINA = 24;
 
   var $ = function (id) { return document.getElementById(id); };
-  var datos = [], temaSel = '', orgSel = '', visibles = PAGINA, ultima = '', hayViejas = false, hoy = new Date().toISOString().slice(0, 10);
+  var datos = [], orgSel = '', visibles = PAGINA, ultima = '', hayViejas = false, hoy = new Date().toISOString().slice(0, 10);
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function plano(s) { return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
@@ -28,12 +28,15 @@
   function color(t) { return COLOR[t] || '#64748b'; }
 
   function filtradas() {
-    var q = plano($('q').value).trim(), am = $('ambito').value, pf = $('perfil').value, cc = $('ccaa').value, pv = $('prov').value, vig = $('vigente').checked;
+    var q = plano($('q').value).trim(), pf = $('perfil').value, cc = $('ccaa').value, pv = $('prov').value, est = $('est').value, temaSel = $('tema').value, imp = $('imp').value.split('-');
+    var lim30 = new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10), DIR = 'Concesión directa y convenios';
     return datos.filter(function (c) {
-      if (am && c.ambito !== am) return false;
       if (cc && !(c.nacional || (c.ccaa || []).indexOf(cc) >= 0)) return false;
       if (pv && !(c.nacional || (c.ccaa || []).indexOf(cc) >= 0 && (c.provincias || []).length === 0 || (c.provincias || []).indexOf(pv) >= 0)) return false;
-      if (vig && (c.tema === 'Concesión directa y convenios' || !(c.fin && c.fin >= hoy))) return false;
+      if (est !== 'todas' && c.tema === DIR) return false;
+      if (est === 'abiertas' && !(c.fin && c.fin >= hoy)) return false;
+      if (est === 'cierran30' && !(c.fin && c.fin >= hoy && c.fin <= lim30)) return false;
+      if (imp.length === 2 && (c.presupuesto == null || c.presupuesto < +imp[0] || (imp[1] !== '' && c.presupuesto > +imp[1]))) return false;
       if (temaSel && c.tema !== temaSel) return false;
       if (orgSel && c.organismo !== orgSel) return false;
       if (pf && (c.ficha ? (c.perfiles || []).indexOf(pf) < 0 : !temaSel && PERFIL_TEMAS[pf].indexOf(c.tema) < 0)) return false;
@@ -64,7 +67,7 @@
   }
 
   function paneles() {
-    barras($('gtemas'), cuenta(datos, 'tema'), color, temaSel, function (v) { temaSel = v; visibles = PAGINA; render(); });
+    barras($('gtemas'), cuenta(datos, 'tema'), color, $('tema').value, function (v) { $('tema').value = v; visibles = PAGINA; render(); });
     var orgs = cuenta(datos, 'organismo').slice(0, 7);
     barras($('gorg'), orgs, function () { return '#00b36b'; }, orgSel, function (v) { orgSel = v; visibles = PAGINA; render(); });
     var g = $('gambito'); g.textContent = '';
@@ -81,7 +84,6 @@
   function chipsFiltro() {
     var c = $('filtrando'); c.textContent = '';
     var act = [];
-    if (temaSel) act.push([temaSel, function () { temaSel = ''; }]);
     if (orgSel) act.push([orgSel, function () { orgSel = ''; }]);
     c.hidden = !act.length;
     if (!act.length) return;
@@ -93,7 +95,13 @@
   }
 
   function render() {
-    var r = filtradas(), lista = $('lista');
+    var r = filtradas(), lista = $('lista'), ord = $('ord').value;
+    r.sort(function (x, y) {
+      if (ord === 'importe') return (y.presupuesto || 0) - (x.presupuesto || 0);
+      if (ord === 'cierre') return ((x.fin && x.fin >= hoy) ? x.fin : '9999').localeCompare((y.fin && y.fin >= hoy) ? y.fin : '9999');
+      return (y.fecha || '').localeCompare(x.fecha || '') || (y.numero || '').localeCompare(x.numero || '');
+    });
+    guardaUrl();
     paneles(); chipsFiltro(); if ($('alt-resumen')) resumenAlerta();
     lista.textContent = '';
     r.slice(0, visibles).forEach(function (c) {
@@ -111,7 +119,7 @@
       li.appendChild(a);
       lista.appendChild(li);
     });
-    $('cuenta').textContent = r.length + ' de ' + datos.length + ' convocatorias';
+    $('cuenta').textContent = r.length + (r.length === 1 ? ' ayuda encontrada' : ' ayudas encontradas') + ' de ' + datos.length + ' convocatorias en el radar';
     $('vacio').hidden = r.length > 0;
     $('mas').hidden = r.length <= visibles;
   }
@@ -180,7 +188,7 @@
   var SB_URL = 'https://mlaqtniujnvfxcvcourm.supabase.co', SB_KEY = 'sb_publishable_6no6BuOgiA_2nonTJntAuQ_DTqEgrcV';   // clave publicable: pensada para el navegador
   var CONSENT = 'Acepto que Cristobal Martinez Comas (WhiteMoon) use mi email para avisarme de convocatorias que coincidan con estos filtros, según la política de privacidad de RADAR 360. Puedo darme de baja en cualquier momento.';
   function filtrosAlerta() {
-    return { perfil: $('perfil').value, ccaa: $('ccaa').value, provincia: $('prov').value, tema: temaSel, texto: $('q').value.trim().slice(0, 100) };
+    return { perfil: $('perfil').value, ccaa: $('ccaa').value, provincia: $('prov').value, tema: $('tema').value, texto: $('q').value.trim().slice(0, 100) };
   }
   function resumenAlerta() {
     var f = filtrosAlerta(), p = [];
@@ -190,7 +198,7 @@
   }
   function alertas() {
     $('alt-consent-txt').textContent = CONSENT;
-    ['perfil', 'ccaa', 'prov', 'q'].forEach(function (id) { $(id).addEventListener(id === 'q' ? 'input' : 'change', resumenAlerta); });
+    ['ccaa', 'prov', 'tema', 'q'].forEach(function (id) { $(id).addEventListener(id === 'q' ? 'input' : 'change', resumenAlerta); }); document.querySelectorAll('.quien button').forEach(function (b) { b.addEventListener('click', resumenAlerta); });
     resumenAlerta();
     $('alt-form').addEventListener('submit', function (e) {
       e.preventDefault();
@@ -217,15 +225,39 @@
     datos = j.convocatorias || [];
     datos.forEach(function (c) { if (c.fecha > ultima) ultima = c.fecha; });
     hayViejas = datos.some(function (c) { return c.fecha < ultima; });
-    var vistos = {}; datos.forEach(function (c) { vistos[c.ambito] = 1; });
-    Object.keys(vistos).forEach(function (a) { var o = el('option', '', AMBITOS[a] || a); o.value = a; $('ambito').appendChild(o); });
+    cuenta(datos, 'tema').forEach(function (t) { if (t[0] === 'Otros') return; var o = el('option', '', t[0] + ' (' + t[1] + ')'); o.value = t[0]; $('tema').appendChild(o); });
     $('actualizado').textContent = 'Última actualización de datos: ' + (j.actualizado || 'desconocida') + ' · ' + (j.fuente || '');
-    territorios(); kpis(); blips(); render(); alertas();
+    territorios(); leeUrl(); kpis(); blips(); render(); alertas();
   }).catch(function () {
     $('cuenta').textContent = 'No se han podido cargar las convocatorias. Inténtalo de nuevo más tarde.';
   });
 
-  ['perfil', 'ambito', 'prov', 'vigente'].forEach(function (id) { $(id).onchange = function () { visibles = PAGINA; render(); }; });
+  ['prov', 'tema', 'imp', 'est', 'ord'].forEach(function (id) { $(id).onchange = function () { visibles = PAGINA; render(); }; });
+  function marcaPerfil() { var v = $('perfil').value; document.querySelectorAll('.quien button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.p === v)); }); }
+  document.querySelectorAll('.quien button').forEach(function (b) {
+    b.onclick = function () { $('perfil').value = $('perfil').value === b.dataset.p ? '' : b.dataset.p; marcaPerfil(); visibles = PAGINA; render(); };
+  });
+  $('limpiar').onclick = function () {
+    ['q', 'perfil', 'ccaa', 'tema', 'imp'].forEach(function (id) { $(id).value = ''; });
+    $('est').value = 'solicitables'; $('ord').value = 'recientes'; orgSel = '';
+    $('ccaa').onchange(); marcaPerfil(); visibles = PAGINA; render();
+  };
+  var CAMPOS = ['q', 'perfil', 'ccaa', 'prov', 'tema', 'imp', 'est', 'ord'];
+  function guardaUrl() {
+    try {
+      var p = new URLSearchParams();
+      CAMPOS.forEach(function (id) { var v = $(id).value; if (v && !(id === 'est' && v === 'solicitables') && !(id === 'ord' && v === 'recientes')) p.set(id, v); });
+      history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p.toString() : '') + location.hash);
+    } catch (e) { /* sin historial: no pasa nada */ }
+  }
+  function leeUrl() {
+    try {
+      var p = new URLSearchParams(location.search);
+      CAMPOS.forEach(function (id) { if (p.has(id) && id !== 'prov') $(id).value = p.get(id); });
+      if (p.get('ccaa')) { $('ccaa').onchange(); if (p.get('prov')) $('prov').value = p.get('prov'); }
+      marcaPerfil();
+    } catch (e) { /* URL rara: se ignora */ }
+  }
   $('q').oninput = function () { visibles = PAGINA; render(); };
   $('mas').onclick = function () { visibles += PAGINA; render(); };
 })();

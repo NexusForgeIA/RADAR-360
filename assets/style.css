@@ -144,3 +144,25 @@ footer .wrap{line-height:1.6}
 .crib-res{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 20px 14px;margin:18px 0}
 .crib-res h3{font-size:16px;margin:16px 0 6px}
 .seo .mini{color:var(--mut);font-size:12.5px}
+
+/* buscador simplificado */
+.search{display:grid;gap:14px}
+.search .big{font-size:13px;color:#b8c5e3;min-width:0}
+.search .big input{font-size:17px;padding:14px 16px;border-radius:12px;width:100%}
+.quien{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.quien .lbl{color:#b8c5e3;font-size:14px;margin-right:4px}
+.quien button{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:8px 14px;font-size:14px}
+.quien button:hover{background:rgba(255,255,255,.16)}
+.quien button[aria-pressed="true"]{background:var(--vol);color:#04210f;border-color:var(--vol);font-weight:700}
+.filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.filtros label{min-width:0}
+.filtros select{width:100%}
+.limpiar{justify-self:start;background:none;border:0;color:#b8c5e3;text-decoration:underline;font-size:13px;padding:0}
+.limpiar:hover{color:#fff}
+@media (max-width:700px){
+  .tag{font-size:0;gap:6px}.tag .live{display:none}
+  .tag .navlink{font-size:12.5px;margin:0;padding:5px 9px}
+  .logo img{height:40px}
+}
+.card{min-width:0}.facts span{overflow-wrap:anywhere;min-width:0;max-width:100%}
+.facts span{white-space:normal}
