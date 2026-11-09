@@ -74,3 +74,5 @@ nav.soon span{opacity:.45}
 @media (max-width:1000px){.grid{grid-template-columns:1fr}.cards3{grid-template-columns:1fr}.right{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
 @media (max-width:760px){.app{grid-template-columns:1fr}.side{position:static;height:auto}.side nav{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}.main{padding:16px}.fuente,.sec{display:none}.head{flex-direction:column}.upd{text-align:left}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:400px){.range{flex-wrap:wrap}.range button{padding:6px 8px;font-size:12px}.col{min-width:0}.chart,.chart svg{max-width:100%}}
+@media (max-width:400px){.note{overflow-wrap:anywhere;min-width:0}}
