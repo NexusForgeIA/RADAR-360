@@ -195,7 +195,7 @@
 
   // ---- Alertas (lista de espera): una sola puerta, la función pública radar360_suscribir en Supabase.
   var SB_URL = 'https://mlaqtniujnvfxcvcourm.supabase.co', SB_KEY = 'sb_publishable_6no6BuOgiA_2nonTJntAuQ_DTqEgrcV';   // clave publicable: pensada para el navegador
-  var CONSENT = 'Acepto que Cristobal Martinez Comas (WhiteMoon) use mi email para avisarme de convocatorias que coincidan con estos filtros, según la política de privacidad de RADAR 360. Puedo darme de baja en cualquier momento.';
+  var CONSENT = 'Acepto la política de privacidad de RADAR 360.';
   function filtrosAlerta() {
     return { perfil: $('perfil').value, ccaa: $('ccaa').value, provincia: $('prov').value, tema: $('tema').value, texto: $('q').value.trim().slice(0, 100) };
   }
@@ -206,7 +206,6 @@
     $('alt-resumen').textContent = 'Filtros actuales: ' + p.join(' · ');
   }
   function alertas() {
-    $('alt-consent-txt').textContent = CONSENT;
     ['ccaa', 'prov', 'tema', 'q'].forEach(function (id) { $(id).addEventListener(id === 'q' ? 'input' : 'change', resumenAlerta); }); document.querySelectorAll('.quien button').forEach(function (b) { b.addEventListener('click', resumenAlerta); });
     resumenAlerta();
     $('alt-form').addEventListener('submit', function (e) {
