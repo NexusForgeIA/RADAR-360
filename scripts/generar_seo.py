@@ -116,7 +116,7 @@ def pagina(ruta, titulo, h1, desc, intro, lista, total, actualizado, enlaces, cr
 <body>
 <header class="top"><div class="wrap bar">
   <a class="logo" href="/" aria-label="RADAR 360 · inicio"><img src="/assets/img/logo-nav.png" alt="RADAR 360" width="112" height="48"></a>
-  <span class="tag"><a href="/panel/" class="navlink">Panel</a><i class="live"></i>Datos de BDNS · Gratis</span>
+  <span class="tag"><a href="/panel/" class="navlink">Panel</a></span>
 </div></header>
 <main class="wrap seo">
   <p class="crumbs">{cr}</p>
