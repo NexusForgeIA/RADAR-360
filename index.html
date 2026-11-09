@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RADAR 360 · Buscador gratuito de ayudas y subvenciones en España</title>
+<meta name="description" content="Encuentra convocatorias de ayudas y subvenciones publicadas en la BDNS, filtradas por tu perfil y tema. Gratis, con enlace a la fuente oficial.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="./"><span class="dot"></span>RADAR <b>360</b></a>
+    <span class="tag">Gratis · Fuente: BDNS</span>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Hay ayudas esperando a tu actividad.</h1>
+      <p class="lead">Dime quién eres y qué buscas: te enseño las convocatorias recién publicadas en la Base de Datos Nacional de Subvenciones, con enlace a la fuente oficial.</p>
+
+      <form id="f" class="search" role="search" onsubmit="return false">
+        <label>Mi perfil
+          <select id="perfil">
+            <option value="">Todos</option>
+            <option value="autonomo">Autónomo</option>
+            <option value="pyme">Pyme</option>
+            <option value="emprendedor">Emprendedor</option>
+            <option value="entidad">Asociación o club</option>
+            <option value="familia">Familia o estudiante</option>
+          </select>
+        </label>
+        <label>Ámbito
+          <select id="ambito"><option value="">Todos</option></select>
+        </label>
+        <label class="grow">Busco…
+          <input id="q" type="search" placeholder="ej. digitalización, becas, fachadas, deporte" autocomplete="off">
+        </label>
+        <button type="button" id="limpiar" class="ghost">Limpiar</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="kpis" id="kpis" aria-live="polite"></div>
+    <div class="chips" id="temas" role="group" aria-label="Filtrar por tema"></div>
+    <p class="count" id="cuenta" aria-live="polite"></p>
+    <ul class="cards" id="lista"></ul>
+    <p class="empty" id="vacio" hidden>Ninguna convocatoria coincide con tu búsqueda. Prueba con menos filtros.</p>
+    <button id="mas" class="more" hidden>Ver más</button>
+  </section>
+
+  <section class="wrap nota">
+    <h2>Cómo funciona y qué no hace</h2>
+    <ul>
+      <li>Los datos vienen de la <a href="https://www.infosubvenciones.es" rel="noopener">BDNS (infosubvenciones.es)</a>. Cada ficha enlaza a la convocatoria oficial.</li>
+      <li>El <b>tema</b> y el <b>perfil</b> son una orientación automática por palabras clave del título: pueden fallar. La referencia es siempre la fuente oficial.</li>
+      <li>Aquí no verás plazos, cuantías ni requisitos: no vienen en el listado y no los inventamos. Se consultan en la ficha oficial.</li>
+      <li>Aparecer aquí no significa que puedas optar a la ayuda ni que te la concedan. RADAR 360 no es un asesor ni tramita solicitudes.</li>
+    </ul>
+    <p class="mini" id="actualizado"></p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">RADAR 360 · proyecto de <a href="https://whitemoon.es" rel="noopener">WhiteMoon</a> · Prototipo en validación</div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

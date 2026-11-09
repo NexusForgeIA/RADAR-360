@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: radar-360
+    runtime: static
+    buildCommand: "true"
+    staticPublishPath: .
+    headers:
+      - path: /data/*
+        name: Cache-Control
+        value: public, max-age=900
