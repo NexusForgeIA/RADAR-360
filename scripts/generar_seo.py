@@ -198,6 +198,8 @@ def main():
     try:  # páginas por organismo (necesitan data/mercado.json; sin él, solo se omiten)
         import generar_organismos
         urls += generar_organismos.genera()
+        import generar_sectores
+        urls += generar_sectores.genera()
     except ImportError as e:
         print("organismos omitidos:", e)
     mod = act[:10]
